@@ -4,7 +4,7 @@
 #include <sys/msg.h>
 #include <unistd.h>
 
-#define QUEUE_KEY 1234
+#define QUEUE_KEY 947270
 
 typedef struct {
     long type;
