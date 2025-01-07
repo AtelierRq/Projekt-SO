@@ -11,16 +11,16 @@ typedef struct {
     int command;
 } Message;
 
-void send_signal(int msgid, int signal) {
+void send_signal(int msgid, int command) {
     Message msg;
     msg.type = 1;
-    msg.command = signal;
+    msg.command = command;
     msgsnd(msgid, &msg, sizeof(msg.command), 0);
-    printf("Kierownik wysyla sygnal: %d\n", signal);
+    printf("Kierownik wysyla sygnal: %d\n", command);
 }
 
 int main() {
-    int msgid = msgget(QUEUE_KEY, 0666 | IPC_CREAT);
+    int msgid = msgget(QUEUE_KEY, 0666);
     if (msgid == -1) {
         perror("msgget");
         exit(1);
