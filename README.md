@@ -2,3 +2,6 @@
 Projekt SO
 
 
+Kolejność uruchomienia: 
+
+./inicjacja
