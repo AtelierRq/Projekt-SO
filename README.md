@@ -2,7 +2,7 @@
 Projekt SO
 
 
-Kolejność uruchomienia: 
+Kolejność uruchomienia pojedynczo:
 
 ./inicjacja
 ./pracownik &
