@@ -39,3 +39,4 @@ int main() {
     printf("Kierownik: Zakonczono wysylanie sygnalow.\n");
     return 0;
 }
+
