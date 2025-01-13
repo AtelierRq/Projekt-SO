@@ -47,3 +47,6 @@ Zadanie wymaga opracowania rozwiązania, które zminimalizuje konflikty i zapewn
 
 
 
+
+
+
