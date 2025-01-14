@@ -43,4 +43,3 @@ Należy zrobić mechanizm synchronizacji między kibicami, pracownikami technicz
 Zadanie wymaga opracowania rozwiązania, które zminimalizuje konflikty i zapewni płynność przepływu osób.
 
 ҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉
-
