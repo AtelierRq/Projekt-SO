@@ -15,4 +15,3 @@ int main() {
     printf("Inicjator: Kolejka komunikatow utworzona. ID: %d\n", msgid);
     return 0;
 }
-
