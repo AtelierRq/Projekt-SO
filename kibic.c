@@ -2,12 +2,13 @@
 #include <stdlib.h>
 #include <sys/ipc.h>
 #include <sys/msg.h>
+#include <unistd.h>
 
-#define QUEUE_KEY 947270
+#define QUEUE_KEY 1234567
 
 typedef struct {
     long type;
-    int command;
+    int command; // Polecenie od pracownika (2, 3)
 } Message;
 
 int main() {
@@ -17,20 +18,18 @@ int main() {
         exit(1);
     }
 
-    Message msg;
-    while (1) {
-        // Odbieranie sygnalu od pracownika (type = 2)
-        if (msgrcv(msgid, &msg, sizeof(msg.command), 2, 0) == -1) {
-            perror("Blad odbioru wiadomosci w kibicu");
-            exit(1);
-        }
+    printf("Kibic czeka na instrukcje...\n");
 
-        if (msg.command == 2) {
-            printf("Kibic: Wchodze na stadion.\n");
-        } else if (msg.command == 3) {
-            printf("Kibic: Opuszczam stadion.\n");
-            break; // Kibic konczy dzialanie po sygnale 3
-        }
+    Message msg;
+    if (msgrcv(msgid, &msg, sizeof(msg.command), 2, 0) == -1) {
+        perror("Blad odbioru wiadomosci od pracownika");
+        exit(1);
+    }
+
+    if (msg.command == 2) {
+        printf("Kibic wchodzi na stadion.\n");
+    } else if (msg.command == 3) {
+        printf("Kibic opuszcza stadion.\n");
     }
 
     return 0;
