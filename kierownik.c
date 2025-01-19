@@ -40,13 +40,13 @@ int main() {
     printf("Kierownik: Rozpoczynam wysylanie sygnalow...\n");
 
     send_signal(msgid, 2); // Sygnał wpuszczania
-    sleep(8);
+    sleep(7);
 
     send_signal(msgid, 1); // Sygnał wstrzymania
-    sleep(3);
+    sleep(7);
 
     send_signal(msgid, 3); // Sygnał opuszczania
-    sleep(3);
+    sleep(7);
     printf("Kierownik: Zakonczono wysylanie sygnalow.\n");
 
     return 0;
