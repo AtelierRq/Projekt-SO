@@ -4,30 +4,37 @@
 #include <sys/msg.h>
 #include <unistd.h>
 
-#define QUEUE_KEY 947270
+#define QUEUE_KEY 1234567
 
 typedef struct {
     long type;
-    int command;
+    int command; // Komenda od kierownika (1, 2, 3)
+    int team_id; // ID drużyny (opcjonalnie)
 } Message;
 
-void handle_signal(int msgid, int command) {
-    Message msg;
-    msg.type = 2; // Pracownik przekazuje wiadomosci kibicom
+void handle_signal(int msgid, Message *msg) {
+    if (msg->command == 1) {
+        printf("Pracownik: Wstrzymuje wpuszczanie kibicow.\n");
+    } else if (msg->command == 2) {
+        printf("Pracownik: Rozpoczyna wpuszczanie kibicow.\n");
 
-    if (command == 1) {
-        sleep(0.5);
-        printf("Pracownik techniczny: Wstrzymuje wpuszczanie kibicow.\n");
-    } else if (command == 2) {
-        sleep(0.5);
-        printf("Pracownik techniczny: Wznawiam wpuszczanie kibicow.\n");
-        msg.command = command;
-        msgsnd(msgid, &msg, sizeof(msg.command), 0); // Informuje kibicow
-    } else if (command == 3) {
-        sleep(0.5);
-        printf("Pracownik techniczny: Kibice opuszczaja stadion.\n");
-        msg.command = command;
-        msgsnd(msgid, &msg, sizeof(msg.command), 0); // Informuje kibicow
+        // Informowanie kibiców
+        Message to_kibic;
+        to_kibic.type = 2; // Typ wiadomości dla kibiców
+        to_kibic.command = 2;
+        if (msgsnd(msgid, &to_kibic, sizeof(to_kibic.command), 0) == -1) {
+            perror("Blad wysylania sygnalu do kibicow");
+        }
+    } else if (msg->command == 3) {
+        printf("Pracownik: Rozpoczyna opuszczanie stadionu.\n");
+
+        // Informowanie kibiców
+        Message to_kibic;
+        to_kibic.type = 2; // Typ wiadomości dla kibiców
+        to_kibic.command = 3;
+        if (msgsnd(msgid, &to_kibic, sizeof(to_kibic.command), 0) == -1) {
+            perror("Blad wysylania sygnalu do kibicow");
+        }
     }
 }
 
@@ -38,23 +45,22 @@ int main() {
         exit(1);
     }
 
+    printf("Pracownik: Oczekuje na sygnaly...\n");
+
     Message msg;
     while (1) {
-        // Odbieranie sygnalu od kierownika
         if (msgrcv(msgid, &msg, sizeof(msg.command), 1, 0) == -1) {
-            perror("Blad odbioru wiadomosci w pracowniku");
+            perror("Blad odbioru sygnalu od kierownika");
             exit(1);
         }
-        handle_signal(msgid, msg.command);
 
-        // Zakonczenie dzialania po sygnale 3
+        handle_signal(msgid, &msg);
+
         if (msg.command == 3) {
-            sleep(1);
-            printf("Pracownik techniczny: Przesylam informacje do kierownika.\n");
+            printf("Pracownik: Kibice opuszczaja stadion.\n");
             break;
         }
     }
 
     return 0;
 }
-
