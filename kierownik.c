@@ -1,42 +1,45 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <sys/ipc.h>
-#include <sys/msg.h>
-#include <unistd.h>
+#include "stadium.h"
 
-#define QUEUE_KEY 947270
-
-typedef struct {
-    long type;
-    int command;
-} Message;
-
-void send_signal(int msgid, int command) {
-    Message msg;
-    msg.type = 1;
-    msg.command = command;
-    msgsnd(msgid, &msg, sizeof(msg.command), 0);
-    printf("Kierownik wysyla sygnal: %d\n", command);
-}
-
-int main() {
-    int msgid = msgget(QUEUE_KEY, 0666);
-    if (msgid == -1) {
-        perror("msgget");
+int main(int argc, char* argv[]) {
+    if (argc < 2) {
+        fprintf(stderr, "Uzycie: %s <PID_WORKER>\n", argv[0]);
         exit(1);
     }
+    pid_t worker_pid = (pid_t)atoi(argv[1]);
+    printf("[MANAGER] PID worker-a: %d\n", worker_pid);
 
-    printf("Kierownik: Wysylam sygnaly...\n");
-    send_signal(msgid, 1); // sygnal 1 - wstrzymanie wpuszczania
-    sleep(5);
+    while (1) {
+        printf("\n[MANAGER] Menu:\n");
+        printf("1 - STOP (SIGUSR1)\n");
+        printf("2 - RESUME (SIGUSR2)\n");
+        printf("3 - EWAKUACJA (SIGINT)\n");
+        printf("4 - Wyjdz\n");
+        printf("Wybór: ");
 
-    send_signal(msgid, 2); // sygnal 2 - wznowienie wpuszczania
-    sleep(5);
-
-    send_signal(msgid, 3); // sygnal 3 - wyjscie kibicow
-    sleep(5);
-
-    printf("Kierownik: Zakonczono wysylanie sygnalow.\n");
+        int choice;
+        if (scanf("%d", &choice) != 1) {
+            printf("Blad wczytywania.\n");
+            break;
+        }
+        switch (choice) {
+            case 1:
+                kill(worker_pid, SIGUSR1);
+                printf("[MANAGER] Wyslano SIGUSR1 => STOP.\n");
+                break;
+            case 2:
+                kill(worker_pid, SIGUSR2);
+                printf("[MANAGER] Wyslano SIGUSR2 => RESUME.\n");
+                break;
+            case 3:
+                kill(worker_pid, SIGINT);
+                printf("[MANAGER] Wyslano SIGINT => EWAKUACJA.\n");
+                break;
+            case 4:
+                printf("[MANAGER] Koncze.\n");
+                return 0;
+            default:
+                printf("Nieznana opcja.\n");
+        }
+    }
     return 0;
 }
-
