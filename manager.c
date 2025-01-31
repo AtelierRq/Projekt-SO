@@ -3,7 +3,7 @@
 int main(int argc, char* argv[]) {
     if (argc < 2) {
         fprintf(stderr, "Uzycie: %s <PID_WORKER>\n", argv[0]);
-        exit(1);
+        return 1;
     }
     pid_t worker_pid = (pid_t)atoi(argv[1]);
     printf("[MANAGER] PID worker-a: %d\n", worker_pid);
@@ -18,28 +18,31 @@ int main(int argc, char* argv[]) {
 
         int choice;
         if (scanf("%d", &choice) != 1) {
-            printf("Blad wczytywania.\n");
+            printf("Błąd wczytywania.\n");
             break;
         }
+
         switch (choice) {
             case 1:
                 kill(worker_pid, SIGUSR1);
-                printf("[MANAGER] Wyslano SIGUSR1 => STOP.\n");
+                printf("[MANAGER] STOP wyslano\n");
                 break;
             case 2:
                 kill(worker_pid, SIGUSR2);
-                printf("[MANAGER] Wyslano SIGUSR2 => RESUME.\n");
+                printf("[MANAGER] RESUME wyslano\n");
                 break;
             case 3:
                 kill(worker_pid, SIGINT);
-                printf("[MANAGER] Wyslano SIGINT => EWAKUACJA.\n");
+                printf("[MANAGER] EWAKUACJA wyslano\n");
                 break;
             case 4:
-                printf("[MANAGER] Koncze.\n");
+                printf("[MANAGER] Koniec.\n");
                 return 0;
             default:
                 printf("Nieznana opcja.\n");
+                break;
         }
     }
+
     return 0;
 }
