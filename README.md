@@ -4,10 +4,11 @@ Projekt SO
 
 Kolejność uruchomienia pojedynczo:
 
-./inicjacja
-./pracownik &
-./kibic &
-./kierownik &
+./initializer - w osobnym terminalu
+./worker - w osobnym terminalu
+./manager <PID worker> - w osobnym terminalu
+./for i in {1..20}; do ./fan & done;
+
 
  ҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉-҉
 
